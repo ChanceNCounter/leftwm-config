@@ -20,23 +20,6 @@ pub enum Layout {
     LeftWiderRightStack,
 }
 
-//pub const LAYOUTS: &[Layout] = &[
-//    Layout::MainAndVertStack,
-//    Layout::MainAndHorizontalStack,
-//    Layout::MainAndDeck,
-//    Layout::GridHorizontal,
-//    Layout::EvenHorizontal,
-//    Layout::EvenVertical,
-//    Layout::Fibonacci,
-//    Layout::LeftMain,
-//    Layout::CenterMain,
-//    Layout::CenterMainBalanced,
-//    Layout::CenterMainFluid,
-//    Layout::Monocle,
-//    Layout::RightWiderLeftStack,
-//    Layout::LeftWiderRightStack,
-//];
-
 impl Default for Layout {
     fn default() -> Self {
         Self::MainAndVertStack

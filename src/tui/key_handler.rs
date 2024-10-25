@@ -30,7 +30,7 @@ pub(super) fn handle_keys(app: &mut App) -> Result<bool> {
                     Window::Home => enter_home(app),
                     Window::Workspaces { index, empty } => enter_workspaces(app, index, empty),
                     Window::Tags { index, empty } => enter_tags(app, index, empty),
-                    Window::Rules { index, empty } => enter_window_rules(app, index, empty),
+                    Window::WindowRules { index, empty } => enter_window_rules(app, index, empty),
                     Window::Scratchpads { index, empty } => enter_scratchpads(app, index, empty),
                     Window::KeyBinds { index, empty } => enter_keybinds(app, index, empty),
                 },
@@ -246,7 +246,7 @@ fn right(app: &mut App) -> Result<bool> {
                 }
             }
         }
-        Window::Rules { index, empty } => {
+        Window::WindowRules { index, empty } => {
             if let Some(2) = app.current_popup {
                 if let PopupState::Int { current, min, max } = app.current_popup_state {
                     if current < max {
@@ -314,7 +314,7 @@ fn left(app: &mut App) -> Result<bool> {
                 }
             }
         }
-        Window::Rules { index, empty } => {
+        Window::WindowRules { index, empty } => {
             if Some(2) == app.current_popup {
                 if let PopupState::Int { current, min, max } = app.current_popup_state {
                     if current > min {
@@ -505,7 +505,7 @@ fn enter_home(app: &mut App) -> Result<bool> {
                     }
                 }
                 12 => {
-                    app.current_window = Window::Rules {
+                    app.current_window = Window::WindowRules {
                         index: 0,
                         empty: if let Some(v) = &app.current_config.window_rules {
                             v.is_empty()
@@ -1118,7 +1118,7 @@ fn enter_window_rules(app: &mut App, index: usize, empty: bool) -> Result<bool> 
                         .try_unwrap()?
                         .is_empty()
                     {
-                        app.current_window = Window::Rules {
+                        app.current_window = Window::WindowRules {
                             index,
                             empty: false,
                         }
@@ -1212,7 +1212,7 @@ fn enter_window_rules(app: &mut App, index: usize, empty: bool) -> Result<bool> 
                         .try_unwrap()?
                         .is_empty()
                 {
-                    app.current_window = Window::Rules {
+                    app.current_window = Window::WindowRules {
                         index: index - 1,
                         empty,
                     };
@@ -1223,7 +1223,7 @@ fn enter_window_rules(app: &mut App, index: usize, empty: bool) -> Result<bool> 
                     .try_unwrap()?
                     .is_empty()
                 {
-                    app.current_window = Window::Rules {
+                    app.current_window = Window::WindowRules {
                         index: 0,
                         empty: true,
                     };
@@ -2015,7 +2015,7 @@ fn char(app: &mut App, c: char) -> Result<bool> {
                 _ => {}
             },
         },
-        Window::Rules { .. } => match app.current_popup {
+        Window::WindowRules { .. } => match app.current_popup {
             Some(0 | 1) => {
                 if let PopupState::String(s) = &mut app.current_popup_state {
                     s.push(c);
@@ -2147,7 +2147,7 @@ fn backspace(app: &mut App) -> Result<bool> {
                 app.current_config.workspaces = Some(workspaces);
             }
         }
-        Window::Rules { .. } => match app.current_popup {
+        Window::WindowRules { .. } => match app.current_popup {
             Some(0 | 1) => {
                 if let PopupState::String(s) = &mut app.current_popup_state {
                     s.pop();
@@ -2219,7 +2219,7 @@ fn delete(app: &mut App) -> Result<bool> {
             }
             _ => {}
         },
-        Window::Rules { index, .. } => match app.config_list_state.selected().unwrap_or(0) {
+        Window::WindowRules { index, .. } => match app.config_list_state.selected().unwrap_or(0) {
             2 => {
                 app.current_config
                     .window_rules

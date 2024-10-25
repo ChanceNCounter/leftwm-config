@@ -50,7 +50,7 @@ pub enum Window {
     Home,
     Workspaces { index: usize, empty: bool },
     Tags { index: usize, empty: bool },
-    Rules { index: usize, empty: bool },
+    WindowRules { index: usize, empty: bool },
     Scratchpads { index: usize, empty: bool },
     KeyBinds { index: usize, empty: bool },
 }
@@ -61,7 +61,7 @@ impl Window {
             Window::Home => {}
             Window::Workspaces { index, .. }
             | Window::Tags { index, .. }
-            | Window::Rules { index, .. }
+            | Window::WindowRules { index, .. }
             | Window::Scratchpads { index, .. }
             | Window::KeyBinds { index, .. } => {
                 *index += 1;
@@ -74,7 +74,7 @@ impl Window {
             Window::Home => {}
             Window::Workspaces { index, .. }
             | Window::Tags { index, .. }
-            | Window::Rules { index, .. }
+            | Window::WindowRules { index, .. }
             | Window::Scratchpads { index, .. }
             | Window::KeyBinds { index, .. } => {
                 *index -= 1;
@@ -87,7 +87,7 @@ impl Window {
             Window::Home => {}
             Window::Workspaces { index, .. }
             | Window::Tags { index, .. }
-            | Window::Rules { index, .. }
+            | Window::WindowRules { index, .. }
             | Window::Scratchpads { index, .. }
             | Window::KeyBinds { index, .. } => {
                 *index = new_index;
@@ -183,7 +183,7 @@ impl App<'_> {
 
                         vec![Spans::from(spans)]
                     }
-                    Window::Rules { .. } | Window::Scratchpads { .. } => {
+                    Window::WindowRules { .. } | Window::Scratchpads { .. } => {
                         vec![Spans::from(vec![
                             Span::raw("Exit: q, "),
                             Span::raw("Save: s, "),
@@ -322,7 +322,7 @@ impl App<'_> {
                             Ok(())
                         }
                     }
-                    Window::Rules { .. } => match self.current_popup {
+                    Window::WindowRules { .. } => match self.current_popup {
                         Some(0) => popups::text_input(
                             &mut self.current_popup_state,
                             "Title".to_string(),
@@ -575,7 +575,7 @@ impl App<'_> {
                     ]
                 }
             }
-            Window::Rules { index, empty } => {
+            Window::WindowRules { index, empty } => {
                 if empty {
                     vec![
                         ListItem::new("None out of 0"),
